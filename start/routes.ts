@@ -21,5 +21,9 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
-  return { hello: 'world' }
+  return
 })
+Route.group(() => {
+  Route.post("/create", 'AccountsController.create');
+}).prefix('/account');
+Route.get('/accountIndex', 'AccountsController.index');

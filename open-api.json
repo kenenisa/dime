@@ -6,7 +6,6 @@
         "description": "Backend api documentation for bank hackthon app"
     },
     "paths": {
-        
         "/account/create": {
             "post": {
                 "summary": "Account setup",
@@ -35,12 +34,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type":"object",
-                                    "properties": {
-                                        "address": {
-                                            "type":"string"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Account"
                                 }
                             }
                         }
@@ -68,14 +62,18 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type":"object",
+                                    "type": "object",
+                                    "required": [
+                                        "amount",
+                                        "transactions"
+                                    ],
                                     "properties": {
-                                        "amount":{
+                                        "amount": {
                                             "type": "number"
                                         },
-                                        "transactions":{
-                                            "type":"array",
-                                            "items":{
+                                        "transactions": {
+                                            "type": "array",
+                                            "items": {
                                                 "$ref": "#/components/schemas/Transaction"
                                             }
                                         }
@@ -92,7 +90,7 @@
                 "summary": "Buy some credit",
                 "description": "redirects to chapa",
                 "responses": {
-                    "200":{
+                    "200": {
                         "description": "redirects to chapa"
                     }
                 }
@@ -135,25 +133,25 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type":"object",
+                                "type": "object",
                                 "properties": {
-                                    "name":{
+                                    "name": {
                                         "type": "string"
                                     },
-                                    "kebeleId":{
+                                    "kebeleId": {
                                         "type": "string"
                                     },
-                                    "uniID":{
+                                    "uniID": {
                                         "type": "string"
                                     },
-                                    "uniPhoto":{
+                                    "uniPhoto": {
                                         "type": "object",
                                         "properties": {
-                                            "front":{
+                                            "front": {
                                                 "type": "string",
                                                 "description": "base64"
                                             },
-                                            "back":{
+                                            "back": {
                                                 "type": "string",
                                                 "description": "base64"
                                             }
@@ -210,17 +208,17 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type":"object",
+                                    "type": "object",
                                     "properties": {
-                                        "transactions":{
-                                            "type":"array",
-                                            "items":{
+                                        "transactions": {
+                                            "type": "array",
+                                            "items": {
                                                 "$ref": "#/components/schemas/Transaction"
                                             }
                                         },
-                                        "predictions":{
-                                            "type":"array",
-                                            "items":{
+                                        "predictions": {
+                                            "type": "array",
+                                            "items": {
                                                 "$ref": "#/components/schemas/Prediction"
                                             }
                                         }
@@ -243,13 +241,13 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "publicKey":{
+                                    "publicKey": {
                                         "type": "string"
                                     },
-                                    "signature":{
+                                    "signature": {
                                         "type": "string"
                                     },
-                                    "value":{
+                                    "value": {
                                         "type": "string"
                                     }
                                 }
@@ -303,7 +301,7 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "url":{
+                                    "url": {
                                         "type": "string"
                                     }
                                 }
@@ -367,7 +365,7 @@
                     "signature": {
                         "type": "string"
                     },
-                    "date":{
+                    "date": {
                         "type": "string"
                     }
                 }
@@ -386,10 +384,38 @@
                         "type": "string"
                     }
                 }
+            },
+            "Account": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "address",
+                    "public_key",
+                    "balance",
+                    "currency",
+                    "created_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "public_key": {
+                        "type": "string"
+                    },
+                    "balance": {
+                        "type": "number"
+                    },
+                    "currency": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    }
+                }
             }
         }
     }
 }
-
-
-

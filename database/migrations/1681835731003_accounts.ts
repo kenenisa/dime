@@ -12,7 +12,7 @@ export default class extends BaseSchema {
        */
 
       table.string("address")
-      table.text("publicKey")
+      table.text("public_key")
       table.float("balance")
       table.string("currency")
 
