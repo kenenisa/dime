@@ -19,16 +19,14 @@ export default class AccountsController {
         })
         return account;
     }
-    public async index(ctx: HttpContextContract) {
-        return [
-            {
-                id: 1,
-                title: 'Hello world',
-            },
-            {
-                id: 2,
-                title: 'Hello universe',
-            },
-        ]
+    public async info({ params }: HttpContextContract) {
+        const { address } = params;
+        const account = await Account.findByOrFail('address', address);
+        await account.load('transactions')
+        return {
+            amount: account.balance,
+            transactions: account.transactions
+        }
     }
+   
 }

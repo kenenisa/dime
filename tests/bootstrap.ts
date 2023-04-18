@@ -26,7 +26,7 @@ const config = {
   }
 }
 
-export const plugins: Required<Config>['plugins'] = [assert(config), runFailedTests(), apiClient()]
+export const plugins: Required<Config>['plugins'] = [assert(config), apiClient()]
 
 /*
 |--------------------------------------------------------------------------

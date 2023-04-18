@@ -23,6 +23,11 @@ test('Create account', async ({ client }) => {
     return address
   })
   response.assertAgainstApiSpec();
-})
+});
+
+test('Get account info', async ({ client,address }) => {
+  const response = await client.get('/wallet/info/'+address)
+  response.assertAgainstApiSpec();
+});
 
 

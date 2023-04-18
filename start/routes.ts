@@ -26,4 +26,12 @@ Route.get('/', async () => {
 Route.group(() => {
   Route.post("/create", 'AccountsController.create');
 }).prefix('/account');
+
+Route.group(() => {
+  Route.get("/info/:address", 'AccountsController.info');
+  Route.post("/send", 'TransactionsController.send');
+}).prefix('/wallet');
+
+
+
 Route.get('/accountIndex', 'AccountsController.index');

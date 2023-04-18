@@ -42,7 +42,7 @@
                 }
             }
         },
-        "/wallet/info/:address": {
+        "/wallet/info/{address}": {
             "get": {
                 "summary": "Get wallet info",
                 "description": "Get wallet info for a given public address",
@@ -180,7 +180,7 @@
                 }
             }
         },
-        "/activity/:address/:days": {
+        "/activity/{address}/{days}": {
             "get": {
                 "summary": "Get activity",
                 "description": "activity for n days",
@@ -269,7 +269,7 @@
                 }
             }
         },
-        "/download-data/:address": {
+        "/download-data/{address}": {
             "get": {
                 "summary": "Download user data",
                 "description": "Download keys and transactions data",
@@ -366,6 +366,9 @@
                         "type": "string"
                     },
                     "date": {
+                        "type": "string"
+                    },
+                    "uniqueTransactionToken": {
                         "type": "string"
                     }
                 }

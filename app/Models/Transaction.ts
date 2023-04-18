@@ -21,6 +21,9 @@ export default class Transaction extends BaseModel {
   @column()
   public deposit: boolean
 
+  @column()
+  public uniqueTransactionToken: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
