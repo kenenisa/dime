@@ -30,6 +30,8 @@ Route.group(() => {
 Route.group(() => {
   Route.get("/info/:address", 'AccountsController.info');
   Route.post("/send", 'TransactionsController.send');
+  Route.post("/loan", 'AccountsController.loan');
+  
 }).prefix('/wallet');
 
 

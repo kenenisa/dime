@@ -3,6 +3,8 @@ import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis
 import Transaction from './Transaction'
 import Business from './Business'
 import Prediction from './Prediction'
+import ReserveVote from './ReserveVote'
+import Loan from './Loan'
 
 export default class Account extends BaseModel {
   @column({ isPrimary: true })
@@ -26,13 +28,19 @@ export default class Account extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Transaction)
+  @hasMany(() => Transaction, { serializeAs: null })
   public transactions: HasMany<typeof Transaction>
 
-  @hasOne(() => Business)
+  @hasOne(() => Business, { serializeAs: null })
   public business: HasOne<typeof Business>
 
-  @hasMany(() => Prediction)
+  @hasOne(() => ReserveVote, { serializeAs: null })
+  public vote: HasOne<typeof ReserveVote>
+
+  @hasOne(() => Loan, { serializeAs: null })
+  public loan: HasOne<typeof Loan>
+
+  @hasMany(() => Prediction,{serializeAs:null})
   public predictions: HasMany<typeof Prediction>
 
 }
