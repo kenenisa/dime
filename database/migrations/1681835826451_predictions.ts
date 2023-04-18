@@ -10,6 +10,13 @@ export default class extends BaseSchema {
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
+      table
+      .integer('account_id')
+      .unsigned()
+      .references('accounts.id')
+      .onDelete('CASCADE') 
+      table.timestamp('future_date', { useTz: true })
+      table.float("expenses")
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

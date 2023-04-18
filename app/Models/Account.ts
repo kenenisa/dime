@@ -5,6 +5,10 @@ export default class Account extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public address: string
+  
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
