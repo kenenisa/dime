@@ -1,13 +1,29 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import Account from './Account'
 
 export default class Business extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public name: string
+
+  @column()
+  public description: string
+
+  @column()
+  public accountId: number
+
+  @column()
+  public status: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Account)
+  public account: BelongsTo<typeof Account>
 }
