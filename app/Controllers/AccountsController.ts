@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Account from 'App/Models/Account';
+import Loan from 'App/Models/Loan';
 import CreateAccountValidator from 'App/Validators/CreateAccountValidator'
+import LoanRequestValidator from 'App/Validators/LoanRequestValidator';
 import { createHash } from 'node:crypto';
 //
 export default class AccountsController {
@@ -28,5 +30,20 @@ export default class AccountsController {
             transactions: account.transactions
         }
     }
-   
+    public async loan({ request }: HttpContextContract) {
+        const { name, kebeleId, uniId, uniPhotoFront, uniPhotoBack, photo } = await request.validate(LoanRequestValidator);
+        await Loan.updateOrCreate({ name, kebeleId, uniId }, {
+            name,
+            kebeleId,
+            uniId,
+            uniPhotoBack,
+            uniPhotoFront,
+            photo
+        })
+        return {
+            success: true,
+            message: "registered for a loan"
+        }
+    }
+
 }

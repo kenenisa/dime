@@ -141,21 +141,16 @@
                                     "kebeleId": {
                                         "type": "string"
                                     },
-                                    "uniID": {
+                                    "uniId": {
                                         "type": "string"
                                     },
-                                    "uniPhoto": {
-                                        "type": "object",
-                                        "properties": {
-                                            "front": {
-                                                "type": "string",
-                                                "description": "base64"
-                                            },
-                                            "back": {
-                                                "type": "string",
-                                                "description": "base64"
-                                            }
-                                        }
+                                    "uniPhotoFront": {
+                                        "type": "string",
+                                        "description": "base64"
+                                    },
+                                     "uniPhotoBack": {
+                                        "type": "string",
+                                        "description": "base64"
                                     },
                                     "photo": {
                                         "type": "string",
@@ -241,6 +236,9 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "publicAddress": {
+                                        "type": "string"
+                                    },
                                     "publicKey": {
                                         "type": "string"
                                     },
