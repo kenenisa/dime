@@ -4,8 +4,8 @@ CREATE TABLE "transactions" (
   "id" integer PRIMARY KEY,
   "account_id" integer,
   "address" text,
-  "reciverAddress" text,
-  "signiture" text,
+  "receiverAddress" text,
+  "signature" text,
   "publicKey" text,
   "amount" text,
   "deposit" boolean,
@@ -32,7 +32,7 @@ CREATE TABLE "accounts" (
 CREATE TABLE "businesses" (
   "id" integer PRIMARY KEY,
   "name" varchar,
-  "discription" text,
+  "description" text,
   "account_id" integer,
   "status" varchar,
   "created_at" timestamp
