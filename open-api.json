@@ -120,7 +120,18 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "returns true on success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
                     }
+
                 }
             }
         },

@@ -5,7 +5,7 @@ import Transaction from 'App/Models/Transaction';
 import WalletSendValidator from 'App/Validators/WalletSendValidator';
 import { createHash, publicDecrypt } from 'node:crypto';
 import { generateSignature } from './../../util';
-
+import { DateTime } from 'luxon'
 
 export default class TransactionsController {
 
@@ -50,6 +50,7 @@ export default class TransactionsController {
                     signature,
                     uniqueTransactionToken,
                     deposit: false,
+                    createdAt: DateTime.local().minus({ days: Math.floor(Math.random() * 60) })
                 })
             }
             return {
@@ -91,11 +92,11 @@ export default class TransactionsController {
         }
         const newLocal = './../../keys.json';
         const data = await import(newLocal)
-        const {publicAddress,date,...tx} = obj
+        const { publicAddress, date, ...tx } = obj
         await Transaction.create({
             ...tx,
             accountId: owner.id,
-            signature: generateSignature(data.default.privateKey,JSON.stringify(obj)),
+            signature: generateSignature(data.default.privateKey, JSON.stringify(obj)),
             deposit: true
         })
         await owner.save();
