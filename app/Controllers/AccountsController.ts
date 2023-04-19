@@ -3,7 +3,10 @@ import Account from 'App/Models/Account';
 import Loan from 'App/Models/Loan';
 import CreateAccountValidator from 'App/Validators/CreateAccountValidator'
 import LoanRequestValidator from 'App/Validators/LoanRequestValidator';
+import VoteRequestValidator from 'App/Validators/VoteRequestValidator';
 import { createHash } from 'node:crypto';
+import TransactionsController from './TransactionsController';
+import ReserveVote from 'App/Models/ReserveVote';
 //
 export default class AccountsController {
     public async create({ request }: HttpContextContract) {
@@ -43,6 +46,31 @@ export default class AccountsController {
         return {
             success: true,
             message: "registered for a loan"
+        }
+    }
+
+    public async vote({ request }: HttpContextContract) {
+        const { publicAddress,publicKey,signature,value } = await request.validate(VoteRequestValidator);
+        const owner = await Account.findByOrFail("address",publicAddress);
+        if(new TransactionsController().validateSignature(publicKey,signature,{
+            publicAddress,
+            value
+        }) && value > 0.5 && value <= 1){
+            await ReserveVote.updateOrCreate({
+                accountId:owner.id
+            },{
+                accountId:owner.id,
+                signature,
+                value
+            })
+            return {
+                success: true,
+                message:"OK :)"
+            }
+        }
+        return {
+            success: false,
+            message:"Signature Invalid or Invalid vote value"
         }
     }
 
