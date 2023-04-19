@@ -2,8 +2,13 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Account from 'App/Models/Account'
 import Prediction from 'App/Models/Prediction';
-const average = array => array.reduce((a, b) => a + b) / array.length;
-const max = array => array.reduce((a, b) => { return Math.max(a, b) });
+const average = array => {
+    if (array.length > 0) {
+        return array.reduce((a, b) => a + b) / array.length;
+    }
+    return 0;
+}
+const max = array => array.reduce((a, b) => { return Math.max(a, b) }, 0);
 const total = array => array.reduce((a, b) => { return a + b }, 0);
 
 export default class PredictionsController {
