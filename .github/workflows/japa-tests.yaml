@@ -33,7 +33,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Run tests
-        run: node ace migration:fresh && node ace test
+        run: node ace test
         env:
           PORT: 3333
           HOST: 0.0.0.0
