@@ -7,6 +7,8 @@ import VoteRequestValidator from 'App/Validators/VoteRequestValidator';
 import { createHash } from 'node:crypto';
 import TransactionsController from './TransactionsController';
 import ReserveVote from 'App/Models/ReserveVote';
+import WebhookRequestValidator from 'App/Validators/WebhookRequestValidator';
+import Webhook from 'App/Models/Webhook';
 //
 export default class AccountsController {
     public async create({ request }: HttpContextContract) {
@@ -50,27 +52,41 @@ export default class AccountsController {
     }
 
     public async vote({ request }: HttpContextContract) {
-        const { publicAddress,publicKey,signature,value } = await request.validate(VoteRequestValidator);
-        const owner = await Account.findByOrFail("address",publicAddress);
-        if(new TransactionsController().validateSignature(publicKey,signature,{
+        const { publicAddress, publicKey, signature, value } = await request.validate(VoteRequestValidator);
+        const owner = await Account.findByOrFail("address", publicAddress);
+        if (new TransactionsController().validateSignature(publicKey, signature, {
             publicAddress,
             value
-        }) && value > 0.5 && value <= 1){
+        }) && value > 0.5 && value <= 1) {
             await ReserveVote.updateOrCreate({
-                accountId:owner.id
-            },{
-                accountId:owner.id,
+                accountId: owner.id
+            }, {
+                accountId: owner.id,
                 signature,
                 value
             })
             return {
                 success: true,
-                message:"OK :)"
+                message: "OK :)"
             }
         }
         return {
             success: false,
-            message:"Signature Invalid or Invalid vote value"
+            message: "Signature Invalid or Invalid vote value"
+        }
+    }
+    public async setWebhook({ request }: HttpContextContract) {
+        const { url, address } = await request.validate(WebhookRequestValidator);
+        const owner = await Account.findByOrFail("address", address);
+        await Webhook.updateOrCreate({
+            accountId: owner.id
+        }, {
+            accountId: owner.id,
+            url
+        })
+        return {
+            success: true,
+            message: "Webhook set"
         }
     }
 

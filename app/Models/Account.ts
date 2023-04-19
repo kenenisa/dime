@@ -5,6 +5,7 @@ import Business from './Business'
 import Prediction from './Prediction'
 import ReserveVote from './ReserveVote'
 import Loan from './Loan'
+import Webhook from './Webhook'
 
 export default class Account extends BaseModel {
   @column({ isPrimary: true })
@@ -39,6 +40,9 @@ export default class Account extends BaseModel {
 
   @hasOne(() => Loan, { serializeAs: null })
   public loan: HasOne<typeof Loan>
+
+  @hasOne(() => Webhook, { serializeAs: null })
+  public webhook: HasOne<typeof Webhook>
 
   @hasMany(() => Prediction,{serializeAs:null})
   public predictions: HasMany<typeof Prediction>

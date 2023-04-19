@@ -75,4 +75,13 @@ export default class TransactionsController {
             .where("account_id", owner.id)
             .where('created_at', '>', ago)
     }
+    public async buy({params}:HttpContextContract){
+        const {address} = params
+        const owner = await Account.findByOrFail("address",address);
+        owner.balance += 1000;
+        await owner.save();
+        return {
+            success:true
+        }
+    }
 }
