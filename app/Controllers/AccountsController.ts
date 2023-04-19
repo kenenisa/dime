@@ -48,6 +48,8 @@ export default class AccountsController {
             uniPhotoFront,
             photo
         })
+        owner.loaner = true;
+        await owner.save()
         return {
             success: true,
             message: "registered for a loan"

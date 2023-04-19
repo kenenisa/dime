@@ -415,6 +415,15 @@
                     "currency": {
                         "type": "string"
                     },
+                    "highest_deposit": {
+                        "type": "string"
+                    },
+                    "credit_limit": {
+                        "type": "string"
+                    },
+                    "credit_score": {
+                        "type": "string"
+                    },
                     "created_at": {
                         "type": "string"
                     }
