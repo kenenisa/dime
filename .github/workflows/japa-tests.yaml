@@ -12,21 +12,12 @@ jobs:
       image: node:${{ matrix.node-version }}
 
     services:
-      redis:
-        image: redis
-        # Set health checks to wait until redis has started
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: ProjectName
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: ProjectName-test
+          POSTGRES_USER: kenenisaalemayhu0
+          POSTGRES_PASSWORD: PRmj3ytfs5Yl
+          POSTGRES_DB: neondbr
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
