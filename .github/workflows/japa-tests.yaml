@@ -1,0 +1,58 @@
+name: ProjectName CI Tests
+on: push
+
+jobs:
+  japa-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['16.15.1', '18.3.0']
+
+    container:
+      image: node:${{ matrix.node-version }}
+
+    services:
+      redis:
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: ProjectName
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: ProjectName-test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: node ace migration:fresh && node ace test
+        env:
+          PORT: 3333
+          HOST: 0.0.0.0
+          NODE_ENV: development
+          APP_KEY: gI99tQysdVWKV3G0jP7fsYqYargEkkcr
+          DRIVE_DISK: local
+          DB_CONNECTION: pg
+          PG_HOST: ep-green-lab-786117.eu-central-1.aws.neon.tech
+          PG_PORT: 5432
+          PG_USER: kenenisaalemayhu0
+          PG_PASSWORD: PRmj3ytfs5Yl
+          PG_DB_NAME: neondb
+          PG_SSLmode: true

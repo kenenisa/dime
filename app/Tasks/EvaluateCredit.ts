@@ -1,6 +1,5 @@
 import Database from '@ioc:Adonis/Lucid/Database'
 import Account from 'App/Models/Account'
-import Transaction from 'App/Models/Transaction'
 import { BaseTask } from 'adonis5-scheduler/build'
 
 const CREDIT_CONSTANT = 0.01
