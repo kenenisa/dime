@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import fs from "fs";
 
 Route.get('/', async () => {
   return { hi: "✋" }
@@ -37,3 +38,17 @@ Route.group(() => {
 Route.get("/activity/:address/:days", "TransactionsController.activity").middleware("webhook");
 Route.post("/vote", "AccountsController.vote").middleware("webhook");
 Route.post("/webhook", "AccountsController.setWebhook").middleware("webhook");
+
+Route.group(()=>{
+
+  Route.get("/prediction","PredictionsController.getPredictionTraining")
+  Route.post("/prediction","PredictionsController.postPredictionTraining")
+
+  Route.get("/reserve","PredictionsController.getReserveTraining")
+  Route.post("/reserve","PredictionsController.postReserveTraining")
+
+}).prefix("/ml")
+
+Route.get("/spec",()=>{
+    return fs.readFileSync('./start/spec/index.html').toString()
+})

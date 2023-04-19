@@ -135,7 +135,7 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "address":{
+                                    "address": {
                                         "type": "string"
                                     },
                                     "name": {
@@ -151,7 +151,7 @@
                                         "type": "string",
                                         "description": "base64"
                                     },
-                                     "uniPhotoBack": {
+                                    "uniPhotoBack": {
                                         "type": "string",
                                         "description": "base64"
                                     },
@@ -323,6 +323,111 @@
                     }
                 }
             }
+        },
+        "/ml/prediction": {
+            "post": {
+                "summary": "Export prediction data",
+                "description": "Accepts and saves the prediction data from ML model",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/IncomingPrediction"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "returns true on success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get training data",
+                "description": "Get training data for ML",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OutgoingPrediction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ml/reserve": {
+            "post": {
+                "summary": "Export reserve data",
+                "description": "Accepts and saves the prediction data from ML model",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "high_spenders": {
+                                        "type": "number"
+                                    },
+                                    "low_spenders": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "returns true on success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SuccessResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get reserve training data",
+                "description": "Get training data for ML",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OutgoingReserve"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -374,21 +479,6 @@
                     }
                 }
             },
-            "Prediction": {
-                "type": "object",
-                "required": [
-                    "amount",
-                    "data"
-                ],
-                "properties": {
-                    "amount": {
-                        "type": "string"
-                    },
-                    "date": {
-                        "type": "string"
-                    }
-                }
-            },
             "Account": {
                 "type": "object",
                 "required": [
@@ -426,6 +516,120 @@
                     },
                     "created_at": {
                         "type": "string"
+                    }
+                }
+            },
+            "Prediction": {
+                "type": "object",
+                "required": [
+                    "future_date",
+                    "expense"
+                ],
+                "properties": {
+                    "future_date": {
+                        "type": "string"
+                    },
+                    "expense": {
+                        "type": "string"
+                    }
+                }
+            },
+            "IncomingPrediction": {
+                "type": "object",
+                "required": [
+                    "address",
+                    "predictions"
+                ],
+                "properties": {
+                    "address": {
+                        "type": "string"
+                    },
+                    "predictions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Prediction"
+                        }
+                    }
+                }
+            },
+            "OutgoingTransaction": {
+                "type": "object",
+                "properties": {
+                    "deposit": {
+                        "type": "object",
+                        "properties": {
+                            "total": {
+                                "type": "number"
+                            },
+                            "avg": {
+                                "type": "number"
+                            },
+                            "max": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "expense": {
+                        "type": "object",
+                        "properties": {
+                            "total": {
+                                "type": "number"
+                            },
+                            "avg": {
+                                "type": "number"
+                            },
+                            "max": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "date": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OutgoingPrediction": {
+                "type": "object",
+                "required": [
+                    "address",
+                    "days"
+                ],
+                "properties": {
+                    "address": {
+                        "type": "string"
+                    },
+                    "days": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OutgoingTransaction"
+                        }
+                    }
+                }
+            },
+            "OutgoingReserve": {
+                "type": "object",
+                "required": [
+                    "address",
+                    "total_expense",
+                    "total_deposit",
+                    "active",
+                    "credit_score"
+                ],
+                "properties": {
+                    "address": {
+                        "type": "string"
+                    },
+                    "total_expense": {
+                        "type": "number"
+                    },
+                    "total_deposit": {
+                        "type": "number"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "credit_score": {
+                        "type": "number"
                     }
                 }
             }
