@@ -135,6 +135,9 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "address":{
+                                        "type": "string"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -239,9 +242,6 @@
                                     "publicAddress": {
                                         "type": "string"
                                     },
-                                    "publicKey": {
-                                        "type": "string"
-                                    },
                                     "signature": {
                                         "type": "string"
                                     },
@@ -300,6 +300,9 @@
                                 "type": "object",
                                 "properties": {
                                     "url": {
+                                        "type": "string"
+                                    },
+                                    "address": {
                                         "type": "string"
                                     }
                                 }

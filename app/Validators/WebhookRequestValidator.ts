@@ -25,8 +25,7 @@ export default class WebhookRequestValidator {
    */
   public schema = schema.create({
     url: schema.string(),
-    address: schema.string({}, [rules.unique({ table: "accounts", column: "address" })]),
-
+    address: schema.string([rules.exists({ table: "accounts", column: "address" })]),
   })
 
   /**

@@ -24,11 +24,11 @@ export default class WalletSendValidator {
    *    ```
    */
   public schema = schema.create({
-    publicAddress: schema.string({}, [
-      rules.unique({ table: 'account', column: "address" })
+    publicAddress: schema.string([
+      rules.exists({ table: 'accounts', column: "address" })
     ]),
-    receiverAddress: schema.string({}, [
-      rules.unique({ table: 'account', column: "address" })
+    receiverAddress: schema.string([
+      rules.exists({ table: 'accounts', column: "address" })
     ]),
     publicKey: schema.string(),
     amount: schema.number(),

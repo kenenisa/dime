@@ -36,8 +36,11 @@ export default class AccountsController {
         }
     }
     public async loan({ request }: HttpContextContract) {
-        const { name, kebeleId, uniId, uniPhotoFront, uniPhotoBack, photo } = await request.validate(LoanRequestValidator);
+        const { name, kebeleId, uniId, uniPhotoFront, uniPhotoBack, photo, address } = await request.validate(LoanRequestValidator);
+        const owner = await Account.findByOrFail("address", address);
+
         await Loan.updateOrCreate({ name, kebeleId, uniId }, {
+            accountId: owner.id,
             name,
             kebeleId,
             uniId,
@@ -52,9 +55,9 @@ export default class AccountsController {
     }
 
     public async vote({ request }: HttpContextContract) {
-        const { publicAddress, publicKey, signature, value } = await request.validate(VoteRequestValidator);
+        const { publicAddress, signature, value } = await request.validate(VoteRequestValidator);
         const owner = await Account.findByOrFail("address", publicAddress);
-        if (new TransactionsController().validateSignature(publicKey, signature, {
+        if (new TransactionsController().validateSignature(owner.publicKey, signature, {
             publicAddress,
             value
         }) && value > 0.5 && value <= 1) {

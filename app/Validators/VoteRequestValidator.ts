@@ -24,10 +24,9 @@ export default class VoteRequestValidator {
    *    ```
    */
   public schema = schema.create({
-    publicAddress: schema.string({}, [
-      rules.unique({ table: 'accounts', column: 'address' })
+    publicAddress: schema.string([
+      rules.exists({ table: 'accounts', column: 'address' })
     ]),
-    publicKey: schema.string(),
     signature: schema.string(),
     value: schema.number(),
   })

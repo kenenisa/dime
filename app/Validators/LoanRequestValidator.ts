@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages,rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class LoanRequestValidator {
@@ -24,6 +24,7 @@ export default class LoanRequestValidator {
    *    ```
    */
   public schema = schema.create({
+    address: schema.string([rules.exists({table:"accounts",column:"address"})]),
     name: schema.string(),
     kebeleId: schema.string(),
     uniId: schema.string(),

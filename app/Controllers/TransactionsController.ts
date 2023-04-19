@@ -9,7 +9,7 @@ import { createHash, publicDecrypt } from 'node:crypto';
 export default class TransactionsController {
 
     public validateSignature(publicKey: string, signature: string, object: any) {
-        const incomingHash = publicDecrypt(publicKey, Buffer.from(signature, "utf-8")).toString();
+        const incomingHash = publicDecrypt(publicKey, Buffer.from(signature, "base64")).toString();
         const generatedData = JSON.stringify(object)
         const hash = createHash("sha256");
         hash.update(generatedData)
@@ -27,7 +27,6 @@ export default class TransactionsController {
             }
         }
         if (this.validateSignature(publicKey, signature, {
-            publicKey,
             publicAddress,
             receiverAddress,
             date,
@@ -70,18 +69,22 @@ export default class TransactionsController {
         const d = new Date();
         d.setDate(d.getDate() - days);
         const ago = d.toDateString()
-        return Database
-            .from('transactions')
-            .where("account_id", owner.id)
-            .where('created_at', '>', ago)
+        return {
+            transactions: await Database
+                .from('transactions')
+                .where("account_id", owner.id)
+                .where('created_at', '>', ago).exec(),
+            predictions: []
+        }
+
     }
-    public async buy({params}:HttpContextContract){
-        const {address} = params
-        const owner = await Account.findByOrFail("address",address);
+    public async buy({ params }: HttpContextContract) {
+        const { address } = params
+        const owner = await Account.findByOrFail("address", address);
         owner.balance += 1000;
         await owner.save();
         return {
-            success:true
+            success: true
         }
     }
 }

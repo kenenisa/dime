@@ -19,7 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import TransactionsController from 'App/Controllers/TransactionsController';
 
 Route.get('/', async () => {
   return
@@ -31,7 +30,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get("/info/:address", 'AccountsController.info').middleware("webhook");
   Route.post("/send", 'TransactionsController.send').middleware("webhook");
-  Route.post("/buy/:address", "TransactionsController.buy").middleware("webhook");
+  Route.get("/buy/:address", "TransactionsController.buy").middleware("webhook");
   Route.post("/loan", 'AccountsController.loan');
 }).prefix('/wallet');
 
