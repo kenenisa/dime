@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "reset": "node ace migration:refresh && node ace test",
+    "reset": "node ace migration:fresh && node ace test",
     "start": "node server.js",
     "test": "node ace test",
     "lint": "eslint . --ext=.ts",

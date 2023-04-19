@@ -18,7 +18,7 @@ export default class extends BaseSchema {
       table.float("highest_deposit").defaultTo(0)
       table.float("credit_score").defaultTo(0.1)
       table.float("credit_limit").defaultTo(0)
-      table.float("loaner").defaultTo(false)
+      table.boolean("loaner").defaultTo(false)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

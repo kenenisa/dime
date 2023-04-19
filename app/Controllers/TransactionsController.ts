@@ -94,6 +94,7 @@ export default class TransactionsController {
         const {publicAddress,date,...tx} = obj
         await Transaction.create({
             ...tx,
+            accountId: owner.id,
             signature: generateSignature(data.default.privateKey,JSON.stringify(obj)),
             deposit: true
         })
