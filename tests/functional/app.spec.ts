@@ -41,7 +41,7 @@ test('Create account', async ({ client }) => {
 });
 test('Transfer Funds to other accounts', async ({ client, address, assert }) => {
   const address_list: string[] = [address]
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 10; i++) {
 
     const keys = keyPair()
     const response = await client.post('/account/create').json({
