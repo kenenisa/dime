@@ -50,5 +50,5 @@ Route.group(()=>{
 }).prefix("/ml")
 
 Route.get("/spec",()=>{
-    return fs.readFileSync('./start/spec/index.html').toString()
+    return fs.readFileSync('./spec/index.html').toString()
 })
