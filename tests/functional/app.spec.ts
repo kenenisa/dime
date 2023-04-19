@@ -1,5 +1,6 @@
 import { TestContext, test } from '@japa/runner'
 import crypto from "node:crypto";
+import { generateSignature } from './../../util';
 //crypt stuff
 const prime_length = 2048;
 
@@ -25,12 +26,7 @@ declare module '@japa/runner' {
   }
 
 }
-const getSignature = (privateKey: string, object: string) => {
-  const hash = crypto.createHash("sha256");
-  hash.update(object)
-  const hashed = hash.digest("hex");
-  return crypto.privateEncrypt({ key: privateKey, passphrase: '' }, Buffer.from(hashed, "utf-8")).toString('base64');
-}
+
 const master = keyPair()
 test('Create account', async ({ client }) => {
 
@@ -64,14 +60,13 @@ test('Transfer Funds to other accounts', async ({ client, address, assert }) => 
     uniqueTransactionToken: Math.random().toString()
   }
 
-  const signature = getSignature(keys.privateKey, JSON.stringify(obj))
+  const signature = generateSignature(keys.privateKey, JSON.stringify(obj))
   // make the transaction
   const rp = await client.post("/wallet/send").json({
     ...obj,
     signature,
     publicKey: keys.publicKey
   })
-
 
   rp.assertAgainstApiSpec();
 });
@@ -107,7 +102,7 @@ test('Cast a vote', async ({ client, address }) => {
   }
   const response = await client.post('/vote').json({
     ...obj,
-    signature: getSignature(master.privateKey, JSON.stringify(obj))
+    signature: generateSignature(master.privateKey, JSON.stringify(obj))
   });
   response.assertAgainstApiSpec();
 });

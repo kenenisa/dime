@@ -23,6 +23,18 @@ export default class Account extends BaseModel {
   @column()
   public currency: string
 
+  @column()
+  public highestDeposit: number
+
+  @column()
+  public creditLimit: number
+
+  @column()
+  public creditScore: number
+
+  @column()
+  public loaner: boolean
+  
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

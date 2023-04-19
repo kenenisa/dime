@@ -4,6 +4,7 @@ import Account from 'App/Models/Account';
 import Transaction from 'App/Models/Transaction';
 import WalletSendValidator from 'App/Validators/WalletSendValidator';
 import { createHash, publicDecrypt } from 'node:crypto';
+import { generateSignature } from './../../util';
 
 
 export default class TransactionsController {
@@ -19,7 +20,7 @@ export default class TransactionsController {
     public async send({ request, response }: HttpContextContract) {
         const { publicKey, publicAddress, receiverAddress, amount, signature, date, uniqueTransactionToken } = await request.validate(WalletSendValidator);
         const owner = await Account.findByOrFail('address', publicAddress);
-        if (owner.balance < amount) {
+        if ((owner.loaner && owner.balance - amount < (-1 * owner.creditLimit)) || (!owner.loaner && owner.balance < amount)) {
             response.status(403)
             return {
                 success: false,
@@ -36,7 +37,6 @@ export default class TransactionsController {
             const tx = await Transaction.findBy("uniqueTransactionToken", uniqueTransactionToken);
             if (!tx) {
                 const receiver = await Account.findByOrFail("address", receiverAddress);
-
                 receiver.balance += amount;
                 await receiver.save();
 
@@ -82,9 +82,25 @@ export default class TransactionsController {
         const { address } = params
         const owner = await Account.findByOrFail("address", address);
         owner.balance += 1000;
+        const obj = {
+            publicAddress: owner.address,
+            receiverAddress: owner.address,
+            date: new Date().toDateString(),
+            amount: 1000,
+            uniqueTransactionToken: Math.random().toString()
+        }
+        const newLocal = './../../keys.json';
+        const data = await import(newLocal)
+        const {publicAddress,date,...tx} = obj
+        await Transaction.create({
+            ...tx,
+            signature: generateSignature(data.default.privateKey,JSON.stringify(obj)),
+            deposit: true
+        })
         await owner.save();
         return {
-            success: true
+            success: true,
+            message: "Deposited 1000 ETB"
         }
     }
 }
