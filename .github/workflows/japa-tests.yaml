@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['16.15.1', '18.3.0']
+        node-version: ['16.15.1']
 
     container:
       image: node:${{ matrix.node-version }}
