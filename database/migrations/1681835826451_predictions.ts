@@ -17,6 +17,7 @@ export default class extends BaseSchema {
       .onDelete('CASCADE') 
       table.timestamp('future_date', { useTz: true })
       table.float("expenses")
+      table.float("deposit")
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

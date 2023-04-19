@@ -333,9 +333,14 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/IncomingPrediction"
+                                "type": "object",
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/IncomingPrediction"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -530,6 +535,9 @@
                         "type": "string"
                     },
                     "expense": {
+                        "type": "string"
+                    },
+                    "deposit": {
                         "type": "string"
                     }
                 }

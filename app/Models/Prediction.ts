@@ -13,7 +13,10 @@ export default class Prediction extends BaseModel {
   public futureDate: string
 
   @column()
-  public expense: number  
+  public expense: number
+
+  @column()
+  public deposit: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

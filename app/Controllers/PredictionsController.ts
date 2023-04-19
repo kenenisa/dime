@@ -1,9 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Account from 'App/Models/Account'
+import Prediction from 'App/Models/Prediction';
 const average = array => array.reduce((a, b) => a + b) / array.length;
 const max = array => array.reduce((a, b) => { return Math.max(a, b) });
-const total = array => array.reduce((a, b) => { return a + b },0);
+const total = array => array.reduce((a, b) => { return a + b }, 0);
 
 export default class PredictionsController {
     public async getPredictionTraining({ }: HttpContextContract) {
@@ -74,4 +75,30 @@ export default class PredictionsController {
         return result
     }
 
+    public async postPredictionTraining({ request }: HttpContextContract) {
+        const { data } = request.all();
+
+        for (let ac of data) {
+            const account = await Account.findByOrFail("address", ac.address);
+            for (let pr of ac.predictions) {
+                await Prediction.create({
+                    accountId: account.id,
+                    futureDate: pr.future_date,
+                    expense: pr.expense,
+                    deposit: pr.deposit
+                })
+            }
+        }
+        return {
+            success: true
+        }
+    }
+
+    public async postReserveTraining({ request }: HttpContextContract) {
+        const { high_spenders, low_spenders } = request.all();
+        return {
+            success: true,
+            message: high_spenders - low_spenders
+        }
+    }
 }
