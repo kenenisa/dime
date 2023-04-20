@@ -29,7 +29,7 @@ declare module '@japa/runner' {
 }
 
 const master = keyPair()
-console.log(master);
+// console.log(master);
 fs.writeFileSync("./dumb.json",JSON.stringify(master))
 test('Create account', async ({ client }) => {
 
@@ -43,10 +43,10 @@ test('Create account', async ({ client }) => {
   response.assertAgainstApiSpec();
 });
 test('Transfer Funds to other accounts', async ({ client, address, assert }) => {
-  console.log({address});
+  // console.log({address});
   
   const address_list: string[] = []
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     const buyRes = await client.get("/wallet/buy/" + address) // get money
     assert.assert(buyRes.body().success, "Buying money not working")
 

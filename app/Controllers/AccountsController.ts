@@ -4,7 +4,7 @@ import Loan from 'App/Models/Loan';
 import CreateAccountValidator from 'App/Validators/CreateAccountValidator'
 import LoanRequestValidator from 'App/Validators/LoanRequestValidator';
 import VoteRequestValidator from 'App/Validators/VoteRequestValidator';
-import { createHash } from 'node:crypto';
+import { createHash } from 'crypto';
 import TransactionsController from './TransactionsController';
 import ReserveVote from 'App/Models/ReserveVote';
 import WebhookRequestValidator from 'App/Validators/WebhookRequestValidator';

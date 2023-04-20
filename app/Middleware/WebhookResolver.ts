@@ -11,7 +11,7 @@ export default class WebhookResolver {
         fetch(url, {
           method: "POST",
           body: JSON.stringify({ request: request.body(), response: response.getBody() })
-        })
+        }).catch(() => { })
       });
 
   }
