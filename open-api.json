@@ -221,7 +221,7 @@
                                         "transactions": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Transaction"
+                                                "$ref": "#/components/schemas/OutgoingTransactionInstance"
                                             }
                                         },
                                         "predictions": {
@@ -478,7 +478,7 @@
                         "type": "string"
                     },
                     "deposit": {
-                        "type": "string"
+                        "type": "boolean"
                     },
                     "receiver_address": {
                         "type": "string"

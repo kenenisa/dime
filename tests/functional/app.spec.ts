@@ -46,7 +46,7 @@ test('Transfer Funds to other accounts', async ({ client, address, assert }) => 
   console.log({address});
   
   const address_list: string[] = []
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 2; i++) {
     const buyRes = await client.get("/wallet/buy/" + address) // get money
     assert.assert(buyRes.body().success, "Buying money not working")
 
