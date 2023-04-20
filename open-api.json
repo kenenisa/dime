@@ -522,13 +522,13 @@
                         "type": "string"
                     },
                     "highest_deposit": {
-                        "type": "string"
+                        "type": "number"
                     },
                     "credit_limit": {
-                        "type": "string"
+                        "type": "number"
                     },
                     "credit_score": {
-                        "type": "string"
+                        "type": "number"
                     },
                     "created_at": {
                         "type": "string"

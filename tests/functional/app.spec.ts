@@ -50,28 +50,28 @@ test('Transfer Funds to other accounts', async ({ client, address, assert }) => 
     const myAddress = response.body().address
     address_list.push(myAddress)
 
-    const buyRes = await client.get("/wallet/buy/" + myAddress) // get money
-
-    assert.assert(buyRes.body().success, "Buying money not working")
-
     for (let j = 0; j < address_list.length; j++) {
-      const obj = {
-        publicAddress: myAddress,
-        receiverAddress: address_list[j],
-        date: new Date().toDateString(),
-        amount: Math.floor(Math.random() * 100),
-        uniqueTransactionToken: Math.random().toString()
+      const buyRes = await client.get("/wallet/buy/" + myAddress) // get money
+      for (let k = 0; k < 1; k++) {
+        assert.assert(buyRes.body().success, "Buying money not working")
+        const obj = {
+          publicAddress: myAddress,
+          receiverAddress: address_list[j],
+          date: new Date().toDateString(),
+          amount: Math.floor(Math.random() * 100),
+          uniqueTransactionToken: Math.random().toString()
+        }
+
+        const signature = generateSignature(keys.privateKey, JSON.stringify(obj))
+        // make the transaction
+        const rp = await client.post("/wallet/send").json({
+          ...obj,
+          signature,
+          publicKey: keys.publicKey
+        })
+
+        rp.assertAgainstApiSpec();
       }
-
-      const signature = generateSignature(keys.privateKey, JSON.stringify(obj))
-      // make the transaction
-      const rp = await client.post("/wallet/send").json({
-        ...obj,
-        signature,
-        publicKey: keys.publicKey
-      })
-
-      rp.assertAgainstApiSpec();
     }
   }
 }).disableTimeout();

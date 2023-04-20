@@ -10,6 +10,9 @@ import ReserveVote from 'App/Models/ReserveVote';
 import WebhookRequestValidator from 'App/Validators/WebhookRequestValidator';
 import Webhook from 'App/Models/Webhook';
 //
+function randomInRange(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
 export default class AccountsController {
     public async create({ request }: HttpContextContract) {
         const { publicKey } = await request.validate(CreateAccountValidator);
@@ -22,7 +25,8 @@ export default class AccountsController {
             address,
             publicKey,
             balance: 0,
-            currency: "ETB"
+            currency: "ETB",
+            creditScore: randomInRange(-1, 1)
         })
         return account;
     }

@@ -75,7 +75,10 @@ export default class TransactionsController {
                 .from('transactions')
                 .where("account_id", owner.id)
                 .where('created_at', '>', ago).exec(),
-            predictions: []
+            predictions: await Database
+            .from('predictions')
+            .where("account_id", owner.id)
+            .where('created_at', '>', ago).exec(),
         }
 
     }
@@ -88,7 +91,9 @@ export default class TransactionsController {
             receiverAddress: owner.address,
             date: new Date().toDateString(),
             amount: 1000,
-            uniqueTransactionToken: Math.random().toString()
+            uniqueTransactionToken: Math.random().toString(),
+            createdAt: DateTime.local().minus({ days: Math.floor(Math.random() * 60) })
+            
         }
         const newLocal = './../../keys.json';
         const data = await import(newLocal)
