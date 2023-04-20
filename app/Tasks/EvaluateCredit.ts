@@ -3,6 +3,7 @@ import Account from 'App/Models/Account'
 import Reserve from 'App/Models/Reserve'
 import ReserveVote from 'App/Models/ReserveVote'
 import { BaseTask } from 'adonis5-scheduler/build'
+import fetch from 'cross-fetch'
 
 const CREDIT_CONSTANT = 0.01
 export default class EvaluateCredit extends BaseTask {
@@ -56,6 +57,7 @@ export default class EvaluateCredit extends BaseTask {
 			final: reserveTotal.toString(),
 			vote: (totalVotes / x).toString()
 		})
+		await fetch("https://dime-ml.onrender.com").catch(console.log)
 		this.logger.info('Handled')
 	}
 }
