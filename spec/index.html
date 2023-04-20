@@ -709,13 +709,13 @@
       "type" : "string"
     },
     "highest_deposit" : {
-      "type" : "string"
+      "type" : "number"
     },
     "credit_limit" : {
-      "type" : "string"
+      "type" : "number"
     },
     "credit_score" : {
-      "type" : "string"
+      "type" : "number"
     },
     "created_at" : {
       "type" : "string"
@@ -756,7 +756,7 @@
     "transactions" : {
       "type" : "array",
       "items" : {
-        "$ref" : "#/components/schemas/Transaction"
+        "$ref" : "#/components/schemas/OutgoingTransactionInstance"
       }
     }
   }
@@ -774,6 +774,17 @@
       "type" : "array",
       "items" : {
         "$ref" : "#/components/schemas/Prediction"
+      }
+    }
+  }
+};
+            defs["ml_prediction_body"] = {
+  "type" : "object",
+  "properties" : {
+    "data" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/IncomingPrediction"
       }
     }
   }
@@ -839,6 +850,39 @@
     }
   }
 };
+            defs["OutgoingTransactionInstance"] = {
+  "required" : [ "amount", "receiver_address" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "number"
+    },
+    "account_id" : {
+      "type" : "number"
+    },
+    "amount" : {
+      "type" : "number"
+    },
+    "created_at" : {
+      "type" : "string"
+    },
+    "deposit" : {
+      "type" : "string"
+    },
+    "receiver_address" : {
+      "type" : "string"
+    },
+    "signature" : {
+      "type" : "string"
+    },
+    "unique_transaction_token" : {
+      "type" : "string"
+    },
+    "updated_at" : {
+      "type" : "string"
+    }
+  }
+};
             defs["OutgoingTransaction_deposit"] = {
   "type" : "object",
   "properties" : {
@@ -861,6 +905,9 @@
       "type" : "string"
     },
     "expense" : {
+      "type" : "string"
+    },
+    "deposit" : {
       "type" : "string"
     }
   }
@@ -2223,7 +2270,7 @@ public class DefaultApiExample {
     public static void main(String[] args) {
         
         DefaultApi apiInstance = new DefaultApi();
-        array[IncomingPrediction] body = ; // array[IncomingPrediction] | 
+        Ml_prediction_body body = ; // Ml_prediction_body | 
         try {
             SuccessResponse result = apiInstance.mlPredictionPost(body);
             System.out.println(result);
@@ -2242,7 +2289,7 @@ public class DefaultApiExample {
 
     public static void main(String[] args) {
         DefaultApi apiInstance = new DefaultApi();
-        array[IncomingPrediction] body = ; // array[IncomingPrediction] | 
+        Ml_prediction_body body = ; // Ml_prediction_body | 
         try {
             SuccessResponse result = apiInstance.mlPredictionPost(body);
             System.out.println(result);
@@ -2258,7 +2305,7 @@ public class DefaultApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Default-mlPredictionPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[IncomingPrediction] *body = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Ml_prediction_body *body = ; // 
 
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
@@ -2279,7 +2326,7 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var Agent47 = require('agent47');
 
 var api = new Agent47.DefaultApi()
-var body = ; // {{array[IncomingPrediction]}} 
+var body = ; // {{Ml_prediction_body}} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -2310,7 +2357,7 @@ namespace Example
         {
 
             var apiInstance = new DefaultApi();
-            var body = new array[IncomingPrediction](); // array[IncomingPrediction] | 
+            var body = new Ml_prediction_body(); // Ml_prediction_body | 
 
             try
             {
@@ -2333,7 +2380,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiDefaultApi();
-$body = ; // array[IncomingPrediction] | 
+$body = ; // Ml_prediction_body | 
 
 try {
     $result = $api_instance->mlPredictionPost($body);
@@ -2350,7 +2397,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::DefaultApi;
 
 my $api_instance = WWW::SwaggerClient::DefaultApi->new();
-my $body = [WWW::SwaggerClient::Object::array[IncomingPrediction]->new()]; # array[IncomingPrediction] | 
+my $body = WWW::SwaggerClient::Object::Ml_prediction_body->new(); # Ml_prediction_body | 
 
 eval { 
     my $result = $api_instance->mlPredictionPost(body => $body);
@@ -2370,7 +2417,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.DefaultApi()
-body =  # array[IncomingPrediction] | 
+body =  # Ml_prediction_body | 
 
 try: 
     # Export prediction data
@@ -2401,10 +2448,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/IncomingPrediction"
-        }
+        "$ref" : "#/components/schemas/ml_prediction_body"
       }
     }
   },
@@ -4487,6 +4531,54 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-walletSendPost-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 403 - returns true on success </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-walletSendPost-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-walletSendPost-403-schema">
+                                  <div id='responses-walletSendPost-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "returns true on success",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/SuccessResponse"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-walletSendPost-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-walletSendPost-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-walletSendPost-403-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 

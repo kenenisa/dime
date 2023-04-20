@@ -1,6 +1,7 @@
 import { TestContext, test } from '@japa/runner'
 import crypto from "node:crypto";
 import { generateSignature } from './../../util';
+import fs from 'fs';
 //crypt stuff
 const prime_length = 2048;
 
@@ -22,12 +23,14 @@ declare module '@japa/runner' {
 
   // Interface must match the class name
   interface TestContext {
-    address: string
+    address: string,
   }
 
 }
 
 const master = keyPair()
+console.log(master);
+fs.writeFileSync("./dumb.json",JSON.stringify(master))
 test('Create account', async ({ client }) => {
 
   const response = await client.post('/account/create').json({
@@ -40,8 +43,12 @@ test('Create account', async ({ client }) => {
   response.assertAgainstApiSpec();
 });
 test('Transfer Funds to other accounts', async ({ client, address, assert }) => {
-  const address_list: string[] = [address]
-  for (let i = 0; i < 1; i++) {
+  console.log({address});
+  
+  const address_list: string[] = []
+  for (let i = 0; i < 10; i++) {
+    const buyRes = await client.get("/wallet/buy/" + address) // get money
+    assert.assert(buyRes.body().success, "Buying money not working")
 
     const keys = keyPair()
     const response = await client.post('/account/create').json({
@@ -51,27 +58,24 @@ test('Transfer Funds to other accounts', async ({ client, address, assert }) => 
     address_list.push(myAddress)
 
     for (let j = 0; j < address_list.length; j++) {
-      const buyRes = await client.get("/wallet/buy/" + myAddress) // get money
-      for (let k = 0; k < 1; k++) {
-        assert.assert(buyRes.body().success, "Buying money not working")
-        const obj = {
-          publicAddress: myAddress,
-          receiverAddress: address_list[j],
-          date: new Date().toDateString(),
-          amount: Math.floor(Math.random() * 100),
-          uniqueTransactionToken: Math.random().toString()
-        }
-
-        const signature = generateSignature(keys.privateKey, JSON.stringify(obj))
-        // make the transaction
-        const rp = await client.post("/wallet/send").json({
-          ...obj,
-          signature,
-          publicKey: keys.publicKey
-        })
-
-        rp.assertAgainstApiSpec();
+      // const buyRes = await client.get("/wallet/buy/" + myAddress) // get money
+      const obj = {
+        publicAddress: address,
+        receiverAddress: address_list[j],
+        date: new Date().toDateString(),
+        amount: Math.floor(Math.random() * 1000),
+        uniqueTransactionToken: Math.random().toString()
       }
+
+      const signature = generateSignature(master.privateKey, JSON.stringify(obj))
+      // make the transaction
+      const rp = await client.post("/wallet/send").json({
+        ...obj,
+        signature,
+        publicKey: master.publicKey
+      })
+
+      rp.assertAgainstApiSpec();
     }
   }
 }).disableTimeout();

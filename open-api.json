@@ -74,7 +74,7 @@
                                         "transactions": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Transaction"
+                                                "$ref": "#/components/schemas/OutgoingTransactionInstance"
                                             }
                                         }
                                     }
@@ -131,7 +131,6 @@
                             }
                         }
                     }
-
                 }
             }
         },
@@ -458,6 +457,39 @@
                         "type": "boolean"
                     },
                     "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OutgoingTransactionInstance": {
+                "type": "object",
+                "required": ["amount","receiver_address"],
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "account_id": {
+                        "type": "number"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "deposit": {
+                        "type": "string"
+                    },
+                    "receiver_address": {
+                        "type": "string"
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "unique_transaction_token": {
+                        "type": "string"
+                    },
+                    "updated_at": {
                         "type": "string"
                     }
                 }
