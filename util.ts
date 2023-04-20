@@ -1,4 +1,4 @@
-import crypto from "node:crypto"
+import crypto from "crypto"
 
 export const generateSignature = (privateKey: string, object: string) => {
     const hash = crypto.createHash("sha256");

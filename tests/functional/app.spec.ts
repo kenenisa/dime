@@ -1,5 +1,5 @@
 import { TestContext, test } from '@japa/runner'
-import crypto from "node:crypto";
+import crypto from "crypto";
 import { generateSignature } from './../../util';
 import fs from 'fs';
 //crypt stuff

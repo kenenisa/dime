@@ -3,7 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import Account from 'App/Models/Account';
 import Transaction from 'App/Models/Transaction';
 import WalletSendValidator from 'App/Validators/WalletSendValidator';
-import { createHash, publicDecrypt } from 'node:crypto';
+import { createHash, publicDecrypt } from 'crypto';
 import { generateSignature } from './../../util';
 import { DateTime } from 'luxon'
 
